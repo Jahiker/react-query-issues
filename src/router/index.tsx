@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <h1>Not found</h1>,
+    element: <h1>404 - Not found</h1>,
   },
 ]);
 
