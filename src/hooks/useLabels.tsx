@@ -8,7 +8,6 @@ export const useLabels = () => {
     await sleep(2);
 
     const { data } = await githubApi.get<Label[]>("/labels");
-    console.log("🚀 ~ file: LabelPicker.tsx:6 ~ getLabels ~ data:", data);
 
     return data;
   };
