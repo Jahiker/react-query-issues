@@ -5,8 +5,6 @@ import { Issue } from "../issues/interfaces";
 const getIssues = async (): Promise<Issue[]> => {
   const { data } = await githubApi.get<Issue[]>("/issues");
 
-  console.log("getIssues", data);
-
   return data;
 };
 
