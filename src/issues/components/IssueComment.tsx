@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const IssueComment: FC<Props> = ({ issue }) => {
-  console.log(issue)
   return (
     <div className="col-12">
       <div className="card border-white mt-2">

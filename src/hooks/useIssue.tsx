@@ -4,11 +4,19 @@ import { Issue } from "../issues/interfaces";
 import { sleep } from "../helpers/sleep";
 
 const getIssue = async (issueNumber: number): Promise<Issue> => {
-  await sleep(2)
+  await sleep(2);
 
   const { data } = await githubApi.get<Issue>(`/issues/${issueNumber}`);
 
-  // console.log("🚀 ~ file: useIssue.tsx:8 ~ getIssue ~ data:", data);
+  return data;
+};
+
+const getIssueComments = async (issueNumber: number): Promise<Issue[]> => {
+  await sleep(2);
+
+  const { data } = await githubApi.get<Issue[]>(
+    `/issues/${issueNumber}/comments`
+  );
 
   return data;
 };
@@ -22,7 +30,17 @@ export const useIssue = (issueNumber: number) => {
     }
   );
 
+  const commentsQuery = useQuery(
+    ["issue", issueNumber, "comments"],
+    () => getIssueComments(issueQuery.data!.number),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!issueQuery.data
+    }
+  );
+
   return {
     issueQuery,
+    commentsQuery
   };
 };

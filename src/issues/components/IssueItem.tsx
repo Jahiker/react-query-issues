@@ -35,7 +35,7 @@ export const IssueItem: FC<Props> = ({ issue }) => {
             alt={issue.user.login}
             className="avatar"
           />
-          <span className="px-2">2</span>
+          <span className="px-2">{issue.comments}</span>
           <FiMessageSquare />
         </div>
       </div>
