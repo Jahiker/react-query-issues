@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { githubApi } from "../api/githubApi";
@@ -38,6 +38,10 @@ const getIssues = async ({
 export const useIssues = ({ state, labels }: Props) => {
   const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    setPage(1);
+  }, [state, labels]);
+
   const issuesQuery = useQuery(
     ["issues", { state, labels, page }],
     () => getIssues({ labels, state, page }),
@@ -61,9 +65,9 @@ export const useIssues = ({ state, labels }: Props) => {
     // Properties
     issuesQuery,
     // Getters
-    page,
+    page: issuesQuery.isFetching ? "Loading" : page,
     // Methods
     nextPage,
-    prevPage
+    prevPage,
   };
 };
