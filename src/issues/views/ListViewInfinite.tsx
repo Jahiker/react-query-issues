@@ -4,14 +4,14 @@ import { IssueList } from "../components/IssueList";
 import { LabelPicker } from "../components/LabelPicker";
 import { LoadingIcon } from "../../shared/components/LoadingIcon";
 
-import { useIssues } from "../../hooks";
 import { State } from "../interfaces";
+import { useIssuesInfinite } from "../../hooks";
 
 export const ListViewInfinite = () => {
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
   const [state, setState] = useState<State>();
 
-  const { issuesQuery, page, nextPage, prevPage } = useIssues({
+  const { issuesQuery } = useIssuesInfinite({
     state,
     labels: selectedLabels,
   });
@@ -29,12 +29,18 @@ export const ListViewInfinite = () => {
           <LoadingIcon />
         ) : (
           <IssueList
-            issues={issuesQuery.data || []}
+            issues={issuesQuery.data?.pages.flat() || []}
             state={state}
             onStateChange={(newState) => setState(newState)}
           />
         )}
-        <button className="btn btn-outline-primary mt-5">Load more...</button>
+        <button
+          className="btn btn-outline-primary mt-5"
+          onClick={() => issuesQuery.fetchNextPage()}
+          disabled={!issuesQuery.hasNextPage}
+        >
+          Load more...
+        </button>
       </div>
 
       <div className="col-4">
